@@ -20,10 +20,15 @@ exports.getAll = function(callback) {
 };
 
 exports.getById = function(company_id, callback) {
-    var query = 'SELECT * FROM company WHERE company_id = ?';
+    var query = 'SELECT c.*, a.street, a.zipcode FROM company c ' +
+        'LEFT JOIN company_address ca on ca.company_id = c.company_id ' +
+        'LEFT JOIN address a on a.address_id = ca.address_id ' +
+        'WHERE c.company_id = ?';
     var queryData = [company_id];
+    console.log(query);
 
     connection.query(query, queryData, function(err, result) {
+
         callback(err, result);
     });
 };
@@ -104,10 +109,14 @@ exports.update = function(params, callback) {
         //delete company_address entries for this company
         companyAddressDeleteAll(params.company_id, function(err, result){
 
-            //insert company_address ids
-            companyAddressInsert(params.company_id, params.address_id, function(err, result){
+            if(params.address_id != null) {
+                //insert company_address ids
+                companyAddressInsert(params.company_id, params.address_id, function(err, result){
+                    callback(err, result);
+                });}
+            else {
                 callback(err, result);
-            });
+            }
         });
 
     });
