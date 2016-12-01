@@ -103,6 +103,7 @@ module.exports.companyAddressDeleteAll = companyAddressDeleteAll;
 
 exports.update = function(params, callback) {
     var query = 'UPDATE company SET company_name = ? WHERE company_id = ?';
+
     var queryData = [params.company_name, params.company_id];
 
     connection.query(query, queryData, function(err, result) {
@@ -132,7 +133,8 @@ exports.update = function(params, callback) {
      SELECT * FROM company WHERE company_id = _company_id;
 
      SELECT a.*, s.company_id FROM address a
-     LEFT JOIN company_address s on s.address_id = a.address_id AND company_id = _company_id;
+     LEFT JOIN company_address s on s.address_id = a.address_id AND company_id = _company_id
+     ORDER BY a.street, a.zipcode;
 
      END //
      DELIMITER ;
