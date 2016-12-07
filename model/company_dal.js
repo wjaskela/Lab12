@@ -134,7 +134,7 @@ exports.update = function(params, callback) {
 
      SELECT a.*, s.company_id FROM address a
      LEFT JOIN company_address s on s.address_id = a.address_id AND company_id = _company_id
-     ORDER BY a.street, a.zipcode;
+     ORDER BY a.street, a.zip_code;
 
      END //
      DELIMITER ;

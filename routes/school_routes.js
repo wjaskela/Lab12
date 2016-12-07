@@ -77,6 +77,7 @@ router.get('/edit', function(req, res){
     }
     else {
         school_dal.edit(req.query.school_id, function(err, result){
+            console.log(result);
             res.render('school/schoolUpdate', {school: result[0][0], address: result[1]});
         });
     }
